@@ -1,4 +1,5 @@
 from PIL import Image, ImageFont, ImageDraw
+import sys
 import textwrap
 import time
 import psutil
@@ -35,7 +36,7 @@ def write_text(text_to_write, image_size):
         offset += 10
     return image_text
 
-def encode_image(text_to_encode, template_image="images/inu.png"):
+def encode_image(text_to_encode, template_image):
 
     template_image = Image.open(template_image)
     red_template = template_image.split()[0]
@@ -67,9 +68,12 @@ def encode_image(text_to_encode, template_image="images/inu.png"):
     encoded_image.save("images/encoded_image.png")
 
 if __name__ == '__main__':
+
+    file_path = str(sys.argv[1])
+    print(file_path)
     msg = input("What is the secret meassage ? \n")
     
-    encode_image(msg)
+    encode_image(msg, file_path)
     Image.open('images/encoded_image.png').show(title="Encoded Image")
     time.sleep(10)
     for proc in psutil.process_iter():
