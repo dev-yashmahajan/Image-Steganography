@@ -1,5 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 import textwrap
+import time
+import psutil
 
 def decode_image(file_location="images/encoded_image.png"):
 
@@ -66,6 +68,17 @@ def encode_image(text_to_encode, template_image="images/inu.png"):
 
 if __name__ == '__main__':
     msg = input("What is the secret meassage ? \n")
-    encode_image(msg)
-    decode_image()
     
+    encode_image(msg)
+    Image.open('images/encoded_image.png').show(title="Encoded Image")
+    time.sleep(10)
+    for proc in psutil.process_iter():
+        if proc.name() == "display":
+            proc.kill()
+    
+    decode_image()
+    Image.open('images/decoded_image.png').show(title="Decoded Image")
+    time.sleep(10)
+    for proc in psutil.process_iter():
+        if proc.name() == "display":
+            proc.kill()
